@@ -8,9 +8,10 @@
         <File path="src/cpu_6502/cpu65xx_fast.vhd" type="file.vhdl" enable="1"/>
         <File path="src/sd/cpu6507.vhd" type="file.vhdl" enable="1"/>
         <File path="src/sd/psram_chan.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/sd/hdmi_impl.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/sd/hdmi_module.vhd" type="file.vhdl" enable="1"/>
-        <File path="src/sd/tmds_encoder_2.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/hdmi/clk_27x5.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/hdmi/hdmi_phy.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/hdmi/hdmi_tx.vhd" type="file.vhdl" enable="1"/>
+        <File path="src/hdmi/tmds_encoder_2.vhd" type="file.vhdl" enable="1"/>
         <File path="src/sd/atari_palette.v" type="file.verilog" enable="1"/>
         <File path="src/sd/atari_sys.v" type="file.verilog" enable="1"/>
         <File path="src/sd/atari_top.v" type="file.verilog" enable="1"/>

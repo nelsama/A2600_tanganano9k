@@ -1,7 +1,7 @@
 # Atari 2600 en Tang Nano 9K con cartucho microSD
 
 Atari 2600 para la Sipeed Tang Nano 9K (Gowin GW1NR-LV9QN88PC6/I5): salida HDMI
-de 720x480, audio delta-sigma y juegos leídos de una microSD con un menú.
+de 720x480 con audio, salida delta-sigma y juegos leídos de una microSD con un menú.
 Probado en placa.
 
 ## Uso
@@ -45,9 +45,11 @@ LEDs: 0 latido, 1 menú, 2 cargando, 3 PAL, 4 mando.
 |---|---|
 | `Atari2600_SD.gprj` | proyecto Gowin (top `atari_top`) |
 | `src/sd/` | consola, cartucho SD, vídeo, PSRAM, restricciones |
+| `src/hdmi/` | transmisor HDMI con audio ([guía](docs/09-HDMI-COMPLETO.md)) |
 | `src/cpu_6502/` | CPU cpu65xx (FPGA64) |
 | `menu/` | programa del menú (C y ensamblador, cc65) |
 | `sim/sd/` | simulador y pruebas ([`docs/SIMULACION.md`](docs/SIMULACION.md)) |
+| `sim/hdmi/` | prueba del transmisor HDMI (GHDL y Node) |
 | `tools/build.sh` | síntesis, P&R y bitstream |
 
 Arquitectura y temporización: [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md).
@@ -66,7 +68,7 @@ absoluta de los `.hex`: si se mueve el proyecto, ejecutar `menu/build.sh`.
 
 | Recurso | Uso |
 |---|---|
-| Lógica | 4282 / 8640 (50 %) |
+| Lógica | 4699 / 8640 (55 %) |
 | BSRAM | 26 / 26 |
 | PLL | 2 / 2 |
 

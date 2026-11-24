@@ -12,7 +12,8 @@ module atari_video(
   input      [4:0]  hl_row,
   output reg        vblank,
   output reg [7:0]  r, g, b,
-  output reg        hs, vs, de
+  output reg        hs, vs, de,     // like r, g, b, 2 clk after h and v
+  output reg [9:0]  h, v
 );
   localparam X0 = 40, W = 640;
   reg [7:0] fb[0:38911] /* synthesis syn_ramstyle = "block_ram" */;
@@ -24,7 +25,6 @@ module atari_video(
   reg [1:0] ms, ps;
   always @(posedge clk_pix) begin ms <= {ms[0], menu}; ps <= {ps[0], pal}; end
 
-  reg [9:0]  h, v;
   reg [15:0] base;                  // start of this line's 160 or 80 bytes
   initial begin h = 0; v = 0; base = 0; end
   wire last = h == 10'd857;
@@ -79,7 +79,9 @@ module atari_video(
     top1 <= v < 10'd32 || v >= 10'd448;
     de1 <= h < 10'd720 && v < 10'd480;
     hs1 <= !(h >= 10'd736 && h < 10'd798);
-    vs1 <= !(v >= 10'd489 && v < 10'd495);
+    // 6 lines, aligned with the start of hs
+    vs1 <= !((v > 10'd489 || (v == 10'd489 && h >= 10'd736)) &&
+             (v < 10'd495 || (v == 10'd495 && h < 10'd736)));
     {de, hs, vs} <= {de1, hs1, vs1};
     if (m1) {r, g, b} <= !de1 ? 24'd0 : (vis1 && dot1) ? (top1 ? 24'hFFC040 : 24'hE8F0FF) : 24'h101838;
     else    {r, g, b} <= !vis1 ? 24'd0 :

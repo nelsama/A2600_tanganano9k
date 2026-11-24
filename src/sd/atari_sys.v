@@ -139,7 +139,12 @@ module atari_sys #(parameter PIX = 8, parameter REQ = 3, parameter DREQ = 14, pa
   reg  [10:0] oc;
   wire osc = oc == 11'd1433;                      // 20 kHz
   always @(posedge clk) oc <= osc ? 11'd0 : oc + 1'b1;
-  dpc u_dpc(.clk(clk), .reset(reset), .en(dpc_on), .cpu_en(cen), .we(cwe), .osc(osc), .a(ca[12:0]),
+  // applied at ph 1: the DPC registers are then stable when the CPU reads them
+  // (multicycle paths of atari_sd.sdc)
+  reg  osc_p;
+  wire osc_t = osc_p && ph == 6'd1 && !reset;
+  always @(posedge clk) osc_p <= !reset && (osc || (osc_p && !osc_t));
+  dpc u_dpc(.clk(clk), .reset(reset), .en(dpc_on), .cpu_en(cen), .we(cwe), .osc(osc_t), .a(ca[12:0]),
     .d(dnow), .sel(dpc_sel), .rd_data(dpc_rd), .dpa(dpa), .q(dpc_q), .mem(q_mem));
 
   // --- PSRAM ------------------------------------------------------------------------
